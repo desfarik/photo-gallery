@@ -1,0 +1,19 @@
+<div class="placeholder"></div>
+
+<img #blurImg
+     [src]="photo.blurUrl"
+     [class.loaded]="isBlurLoaded && !isBlurFailed"
+     alt="wedding-photo"
+     (load)="setBlurLoaded()"
+     (error)="setBlurFailed()"
+     fetchpriority="high"
+     class="photo">
+
+<img #img
+     *ngIf="isBlurLoaded"
+     [src]="photo.url"
+     [class.loaded]="isLoaded"
+     alt="wedding-photo"
+     (load)="setLoaded()"
+     class="photo">
+

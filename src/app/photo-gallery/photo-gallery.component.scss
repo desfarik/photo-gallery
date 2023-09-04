@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.gallery-line {
+  display: flex;
+  gap: 4px;
+}
+
+.photo-gallery-viewport {
+  height: 100%;
+}
+
+.gallery-line:not(:last-child) {
+  margin-top: 2px;
+}
+
+.photo {
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-gallery-viewport[images-per-line-size="2"] .photo {
+  width: 50%;
+}
+
+.photo-gallery-viewport[images-per-line-size="3"] .photo {
+  width: 33.3333333%;
+}
+
+.photo-gallery-viewport[images-per-line-size="4"] .photo {
+  width: 25%;
+}

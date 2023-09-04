@@ -1,0 +1,14 @@
+<cdk-virtual-scroll-viewport [itemSize]="imageHeight"
+                             [attr.images-per-line-size]="imagePerLineSize"
+                             minBufferPx="1000"
+                             maxBufferPx="2000"
+                             class="photo-gallery-viewport">
+  <div *cdkVirtualFor="let row of imageRows;"
+       class="gallery-line"
+       [style.height.px]="imageHeight">
+    <app-photo *ngFor="let image of row"
+               [photo]="image"
+               alt="wedding-photo"
+               class="photo"></app-photo>
+  </div>
+</cdk-virtual-scroll-viewport>

@@ -1,0 +1,30 @@
+
+:host {
+  display: flex;
+  position: relative;
+}
+
+.preview-title {
+  position: absolute;
+  bottom: 10em;
+  left: 2em;
+  color: white;
+}
+.preview-image {
+  width: 100%;
+}
+
+@media (min-width: 1000px) {
+  .preview-image,
+  .preview-title {
+    width: 50%;
+  }
+  .preview-title {
+    position: static;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
