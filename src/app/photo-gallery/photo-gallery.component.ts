@@ -7,6 +7,11 @@ import { BLUR_PHOTO_URL, MEDIUM_PHOTO_URL } from "../photo-url.constants";
 
 const IMAGE_LENGTH = 512;
 
+interface PhotoLine {
+  id: string,
+  images: Photo[],
+}
+
 
 @Component({
   selector: 'app-photo-gallery',
@@ -22,7 +27,7 @@ const IMAGE_LENGTH = 512;
   ]
 })
 export class PhotoGalleryComponent {
-  imageRows: Photo[][];
+  imageRows: PhotoLine[];
   imageWidth!: number;
 
   constructor(private changeDetector: ChangeDetectorRef) {
@@ -33,21 +38,31 @@ export class PhotoGalleryComponent {
     })
   }
 
+  trackById = (index: number, item: any) => {
+    return item.id;
+  }
+
   get imageHeight(): number {
     return this.imageWidth * 1.5;
   }
 
 
-  private generateImages(): Photo[][] {
+  private generateImages(): PhotoLine[] {
     this.imageWidth = this.availableWidth / this.imagePerLineSize;
     const images = new Array(IMAGE_LENGTH);
     for (let i = 1; i <= IMAGE_LENGTH; i++) {
       images[i] = {
+        id: MEDIUM_PHOTO_URL(i),
         url: MEDIUM_PHOTO_URL(i),
         blurUrl: BLUR_PHOTO_URL(i),
       };
     }
-    return chunk(images.slice(1), this.imagePerLineSize);
+    return chunk(images.slice(1), this.imagePerLineSize).map(images => {
+      return {
+        images,
+        id: images.map(image => image.id).join('-'),
+      }
+    });
   }
 
   private get availableWidth(): number {

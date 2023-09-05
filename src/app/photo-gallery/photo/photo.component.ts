@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inpu
 import { NgForOf, NgIf } from "@angular/common";
 
 export interface Photo {
+  id?: string;
   url: string;
   blurUrl: string;
 }
