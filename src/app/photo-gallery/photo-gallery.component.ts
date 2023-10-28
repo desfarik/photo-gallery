@@ -3,9 +3,7 @@ import { NgForOf, NgOptimizedImage } from "@angular/common";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { chunk } from "lodash-es";
 import { Photo, PhotoComponent } from "./photo/photo.component";
-import { BLUR_PHOTO_URL, MEDIUM_PHOTO_URL } from "../photo-url.constants";
-
-const IMAGE_LENGTH = 512;
+import { BLUR_PHOTO_URL, IMAGE_LENGTH, MEDIUM_PHOTO_URL } from "../photo-url.constants";
 
 interface PhotoLine {
   id: string,

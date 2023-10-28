@@ -21,6 +21,7 @@ export class PhotoComponent implements OnDestroy {
   @Input()
   photo!: Photo;
   isBlurLoaded = false;
+  isOriginalLoaded = false;
   isBlurFailed = false;
   isLoaded = false;
 
@@ -31,10 +32,11 @@ export class PhotoComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.blurImg.nativeElement.src = '';
+    if(this.blurImg) {
+      this.blurImg.nativeElement.src = '';
+    }
     if(this.img) {
       this.img.nativeElement.src = '';
-
     }
   }
 

@@ -3,9 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
-import { PhotoComponent } from './photo-gallery/photo/photo.component';
 import { CdkVirtualScrollableElement } from "@angular/cdk/scrolling";
 import { PreviewComponent } from './preview/preview.component';
+import { ToolbarComponent } from "./toolbar/toolbar.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,8 @@ import { PreviewComponent } from './preview/preview.component';
     PhotoGalleryComponent,
     CdkVirtualScrollableElement,
     PreviewComponent,
+    ToolbarComponent,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
