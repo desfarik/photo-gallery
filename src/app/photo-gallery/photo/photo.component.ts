@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, signal, ViewChild } from '@angular/core';
 import { NgForOf, NgIf } from "@angular/common";
 
 export interface Photo {
   id?: string;
+  index?: number;
   url: string;
   blurUrl: string;
 }
@@ -20,16 +21,13 @@ export interface Photo {
 export class PhotoComponent implements OnDestroy {
   @Input()
   photo!: Photo;
-  isBlurLoaded = false;
-  isOriginalLoaded = false;
-  isBlurFailed = false;
-  isLoaded = false;
+  isBlurLoaded = signal(false);
+  isOriginalLoaded = signal(false);
+  isBlurFailed = signal(false);
+  isLoaded = signal(false);
 
   @ViewChild('blurImg') blurImg!: ElementRef<HTMLImageElement>
   @ViewChild('img') img?: ElementRef<HTMLImageElement>
-
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
 
   ngOnDestroy(): void {
     if(this.blurImg) {
@@ -41,18 +39,15 @@ export class PhotoComponent implements OnDestroy {
   }
 
   setBlurLoaded() {
-    this.isBlurLoaded = true;
-    this.changeDetector.detectChanges();
+    this.isBlurLoaded.set(true);
   }
 
   setBlurFailed() {
-    this.isBlurLoaded = true;
-    this.isBlurFailed = true;
-    this.changeDetector.detectChanges();
+    this.isBlurLoaded.set(true);
+    this.isBlurFailed.set(true);
   }
 
   setLoaded() {
-    this.isLoaded = true;
-    this.changeDetector.detectChanges();
+    this.isLoaded.set(true);
   }
 }

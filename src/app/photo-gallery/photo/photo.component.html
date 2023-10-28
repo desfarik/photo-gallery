@@ -1,9 +1,10 @@
-<div class="placeholder"></div>
+<div *ngIf="!isLoaded()"
+     class="placeholder"></div>
 
 <img #blurImg
-     *ngIf="!isLoaded"
+     *ngIf="!isLoaded()"
      [src]="photo.blurUrl"
-     [class.loaded]="isBlurLoaded && !isBlurFailed"
+     [class.loaded]="isBlurLoaded() && !isBlurFailed()"
      alt="wedding-photo"
      (load)="setBlurLoaded()"
      (error)="setBlurFailed()"
@@ -11,9 +12,9 @@
      class="photo">
 
 <img #img
-     *ngIf="isBlurLoaded"
+     *ngIf="isBlurLoaded()"
      [src]="photo.url"
-     [class.loaded]="isLoaded"
+     [class.loaded]="isLoaded()"
      alt="wedding-photo"
      (load)="setLoaded()"
      class="photo">

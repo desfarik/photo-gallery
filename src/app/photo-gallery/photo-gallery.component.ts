@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef } from '@angular/core';
-import { NgForOf, NgOptimizedImage } from "@angular/common";
+import { NgForOf } from "@angular/common";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { chunk } from "lodash-es";
 import { Photo, PhotoComponent } from "./photo/photo.component";
 import { BLUR_PHOTO_URL, IMAGE_LENGTH, MEDIUM_PHOTO_URL } from "../photo-url.constants";
+import PhotoSwipeLightbox from "photoswipe";
 
 interface PhotoLine {
   id: string,
@@ -19,14 +20,14 @@ interface PhotoLine {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgForOf,
-    NgOptimizedImage,
     ScrollingModule,
-    PhotoComponent
+    PhotoComponent,
   ]
 })
 export class PhotoGalleryComponent {
   imageRows: PhotoLine[];
   imageWidth!: number;
+  lightbox!: PhotoSwipeLightbox;
 
   constructor(private changeDetector: ChangeDetectorRef) {
     this.imageRows = this.generateImages()
@@ -34,6 +35,7 @@ export class PhotoGalleryComponent {
       this.imageRows = this.generateImages();
       this.changeDetector.detectChanges();
     })
+    this.load();
   }
 
   trackById = (index: number, item: any) => {
@@ -45,12 +47,27 @@ export class PhotoGalleryComponent {
   }
 
 
+  load() {
+
+  }
+
+  openGallery(photo: Photo) {
+    this.lightbox = new PhotoSwipeLightbox({
+      pswpModule: () => import('photoswipe'),
+      dataSource: this.galleryDataSource,
+    });
+    this.lightbox.init();
+    this.lightbox.goTo((photo.index || 0))
+  }
+
+
   private generateImages(): PhotoLine[] {
     this.imageWidth = this.availableWidth / this.imagePerLineSize;
     const images = new Array(IMAGE_LENGTH);
     for (let i = 1; i <= IMAGE_LENGTH; i++) {
       images[i] = {
         id: MEDIUM_PHOTO_URL(i),
+        index: i - 1,
         url: MEDIUM_PHOTO_URL(i),
         blurUrl: BLUR_PHOTO_URL(i),
       };
@@ -61,6 +78,16 @@ export class PhotoGalleryComponent {
         id: images.map(image => image.id).join('-'),
       }
     });
+  }
+
+  get galleryDataSource() {
+    const images = new Array(IMAGE_LENGTH);
+    for (let i = 0; i < IMAGE_LENGTH; i++) {
+      images[i] = {
+        src: MEDIUM_PHOTO_URL(i + 1),
+      };
+    }
+    return images;
   }
 
   private get availableWidth(): number {
