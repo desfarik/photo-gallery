@@ -107,3 +107,11 @@ body {
 .pswp .pswp__img--placeholder {
   background: transparent !important;
 }
+
+.mdc-snackbar.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background: white;
+}
+
+.secondary-text {
+  color: $dark-secondary-text;
+}

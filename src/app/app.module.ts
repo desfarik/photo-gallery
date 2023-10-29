@@ -7,6 +7,7 @@ import { CdkVirtualScrollableElement } from "@angular/cdk/scrolling";
 import { PreviewComponent } from './preview/preview.component';
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PreviewComponent,
     ToolbarComponent,
     BrowserAnimationsModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

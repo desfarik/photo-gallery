@@ -1,0 +1,22 @@
+<div class="flex flex-row items-center gap-4"
+     [class.has-error]="downloadingProgressService.downloadFailed()">
+  <mat-icon class="download-icon">download</mat-icon>
+  <div class="flex-grow secondary-text">
+    <p *ngIf="downloadingProgressService.downloadFailed()">
+      Произошла ошибка.
+    </p>
+    <p *ngIf="downloadingProgressService.downloadFinished()">
+      Загрузка завершена
+    </p>
+    <p *ngIf="downloadedInProgress()">
+      Загружено фотографий:
+      &nbsp;{{downloadingProgressService.downloadedItems()}} / {{IMAGE_LENGTH}}
+    </p>
+    <mat-progress-bar class="mt-2" [value]="downloadedPercent()"></mat-progress-bar>
+  </div>
+</div>
+<div class="flex flex-grow justify-end mt-2">
+  <button mat-button color="primary"
+          (click)="snackBarRef.dismiss()">Закрыть
+  </button>
+</div>

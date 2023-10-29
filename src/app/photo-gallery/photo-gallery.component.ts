@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { NgForOf } from "@angular/common";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { chunk } from "lodash-es";
@@ -24,7 +24,7 @@ interface PhotoLine {
     PhotoComponent,
   ]
 })
-export class PhotoGalleryComponent {
+export class PhotoGalleryComponent implements AfterViewInit{
   imageRows: PhotoLine[];
   imageWidth!: number;
   lightbox!: PhotoSwipeLightbox;
@@ -35,7 +35,10 @@ export class PhotoGalleryComponent {
       this.imageRows = this.generateImages();
       this.changeDetector.detectChanges();
     })
-    this.load();
+  }
+
+  ngAfterViewInit(): void {
+    this.loadPhotoSwipe();
   }
 
   trackById = (index: number, item: any) => {
@@ -47,19 +50,19 @@ export class PhotoGalleryComponent {
   }
 
 
-  load() {
-
-  }
-
-  openGallery(photo: Photo) {
+  async openGallery(photo: Photo) {
+    const PhotoSwipeLightbox = await this.loadPhotoSwipe();
     this.lightbox = new PhotoSwipeLightbox({
-      pswpModule: () => import('photoswipe'),
       dataSource: this.galleryDataSource,
+      index: photo.index
     });
     this.lightbox.init();
-    this.lightbox.goTo((photo.index || 0))
   }
 
+
+  private async loadPhotoSwipe() {
+    return (await import('photoswipe')).default;
+  }
 
   private generateImages(): PhotoLine[] {
     this.imageWidth = this.availableWidth / this.imagePerLineSize;
@@ -85,6 +88,7 @@ export class PhotoGalleryComponent {
     for (let i = 0; i < IMAGE_LENGTH; i++) {
       images[i] = {
         src: MEDIUM_PHOTO_URL(i + 1),
+        width: '100%'
       };
     }
     return images;
