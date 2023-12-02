@@ -114,7 +114,7 @@ export class PhotoGalleryComponent implements AfterViewInit {
           if (this.inFullScreen) {
             document.exitFullscreen();
           } else {
-            document.body.requestFullscreen();
+            document.body.requestFullscreen({ navigationUI: "hide" });
           }
         }
       });
