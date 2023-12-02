@@ -115,3 +115,17 @@ body {
 .secondary-text {
   color: $dark-secondary-text;
 }
+
+.pswp__button--fullscreen-button {
+  text-align: center;
+
+  .pswp__button--fullscreen-icon {
+    display: inline-block;
+    fill: var(--pswp-icon-color);
+    color: var(--pswp-icon-color-secondary);
+  }
+}
+
+body:fullscreen::backdrop {
+  background: transparent;
+}

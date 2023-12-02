@@ -4,7 +4,8 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { chunk } from "lodash-es";
 import { Photo, PhotoComponent } from "./photo/photo.component";
 import { BLUR_PHOTO_URL, IMAGE_LENGTH, MEDIUM_PHOTO_URL } from "../photo-url.constants";
-import PhotoSwipeLightbox from "photoswipe";
+import type PhotoSwipeLightbox from "photoswipe";
+import { FULLSCREEN_EXIT_ICON, FULLSCREEN_IN_ICON } from "./icons";
 
 interface PhotoLine {
   id: string,
@@ -24,16 +25,40 @@ interface PhotoLine {
     PhotoComponent,
   ]
 })
-export class PhotoGalleryComponent implements AfterViewInit{
+export class PhotoGalleryComponent implements AfterViewInit {
   imageRows: PhotoLine[];
   imageWidth!: number;
   lightbox!: PhotoSwipeLightbox;
+  cachedDataSource;
 
   constructor(private changeDetector: ChangeDetectorRef) {
     this.imageRows = this.generateImages()
     window.addEventListener('resize', () => {
       this.imageRows = this.generateImages();
+      this.resizePhotoSwiperImages();
+      this.lightbox.currSlide.updateContentSize(true);
       this.changeDetector.detectChanges();
+    })
+    document.addEventListener('fullscreenchange', (event) => {
+      const button = document.querySelector('.pswp__button--fullscreen-button');
+      if (button) {
+        button.innerHTML = this.inFullScreen ? FULLSCREEN_EXIT_ICON : FULLSCREEN_IN_ICON;
+      }
+    });
+  }
+
+  private resizePhotoSwiperImages() {
+    this.cachedDataSource.forEach(image => {
+      image.width = window.innerWidth;
+      image.height = window.innerHeight;
+    })
+    this.lightbox.contentLoader._cachedItems.forEach(image => {
+      image.width = window.innerWidth;
+      image.height = window.innerHeight;
+      if (image.slide) {
+        image.slide.height = window.innerHeight;
+        image.slide.width = window.innerWidth;
+      }
     })
   }
 
@@ -49,16 +74,52 @@ export class PhotoGalleryComponent implements AfterViewInit{
     return this.imageWidth * 1.5;
   }
 
+  get inFullScreen(): boolean {
+    return document.fullscreenElement === document.body;
+  }
 
   async openGallery(photo: Photo) {
     const PhotoSwipeLightbox = await this.loadPhotoSwipe();
+    this.cachedDataSource = this.galleryDataSource;
     this.lightbox = new PhotoSwipeLightbox({
-      dataSource: this.galleryDataSource,
-      index: photo.index
+      dataSource: this.cachedDataSource,
+      index: photo.index,
+      initialZoomLevel: 'fit',
+      secondaryZoomLevel: 2,
+      maxZoomLevel: 1,
     });
+    this.addFullscreenButton();
     this.lightbox.init();
+    this.lightbox.on('close', () => {
+      if (this.inFullScreen) {
+        document.exitFullscreen();
+      }
+    });
+    console.log(this.lightbox);
+
   }
 
+  private addFullscreenButton() {
+    if (!document.fullscreenEnabled) {
+      return
+    }
+    this.lightbox.on('uiRegister', () => {
+      this.lightbox.ui.registerElement({
+        name: 'fullscreen-button',
+        ariaLabel: 'Fullscreen zoom',
+        order: 9,
+        isButton: true,
+        html: this.inFullScreen ? FULLSCREEN_EXIT_ICON : FULLSCREEN_IN_ICON,
+        onClick: (event, el) => {
+          if (this.inFullScreen) {
+            document.exitFullscreen();
+          } else {
+            document.body.requestFullscreen();
+          }
+        }
+      });
+    });
+  }
 
   private async loadPhotoSwipe() {
     return (await import('photoswipe')).default;
@@ -88,7 +149,8 @@ export class PhotoGalleryComponent implements AfterViewInit{
     for (let i = 0; i < IMAGE_LENGTH; i++) {
       images[i] = {
         src: MEDIUM_PHOTO_URL(i + 1),
-        width: '100%'
+        width: window.innerWidth,
+        height: window.innerHeight,
       };
     }
     return images;

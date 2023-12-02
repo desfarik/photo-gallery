@@ -1,6 +1,8 @@
 <cdk-virtual-scroll-viewport [itemSize]="imageHeight"
                              [attr.images-per-line-size]="imagePerLineSize"
-                             class="photo-gallery-viewport">
+                             class="photo-gallery-viewport"
+                             [minBufferPx]="1000"
+                             [maxBufferPx]="2000">
   <div *cdkVirtualFor="let row of imageRows; trackBy: trackById;"
        class="gallery-line"
        [style.height.px]="imageHeight">
