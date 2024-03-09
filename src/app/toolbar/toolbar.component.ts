@@ -1,6 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
 import { DownloadingProgressService } from "../download-progress/downloading-progress.service";
+import { PhotoGeneratorService } from "../service/photo-generator.service";
+import groupping from '../../../scripts/groupping.json';
+import { NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-toolbar',
@@ -9,10 +12,19 @@ import { DownloadingProgressService } from "../download-progress/downloading-pro
   standalone: true,
   imports: [
     MatButtonModule,
-  ]
+    NgForOf,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent implements OnInit {
   downloadingProgressService = inject(DownloadingProgressService);
+  photoGeneratorService = inject(PhotoGeneratorService);
+
+  PEOPLE = Object.keys(groupping).filter(person => person !== 'HAPPY_HUSBAND' && person !== 'BEST_WIFE');
+
+  activeFilters = computed(() => {
+    return new Set<string>(this.photoGeneratorService.filters())
+  })
 
   ngOnInit(): void {
     window.addEventListener('message', this.onMessage)
@@ -23,5 +35,9 @@ export class ToolbarComponent implements OnInit {
     if (/^zip/.test(action)) {
       this.downloadingProgressService.handleAction(action);
     }
+  }
+
+  filterBy(filter: string) {
+    this.photoGeneratorService.toggleFilter(filter);
   }
 }

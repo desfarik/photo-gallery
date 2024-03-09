@@ -1,1 +1,23 @@
+<div class="person-grid gap-2 flex-wrap">
+  <div class="person-filter main"
+       [class.selected]="activeFilters().has('HAPPY_HUSBAND')">
+    <img [src]="'/assets/images/HAPPY_HUSBAND.png'"
+         alt="person-image"
+         (click)="filterBy('HAPPY_HUSBAND')">
+  </div>
+  <div class="person-filter main"
+       [class.selected]="activeFilters().has('BEST_WIFE')">
+    <img [src]="'/assets/images/BEST_WIFE.png'"
+         alt="person-image"
+         (click)="filterBy('BEST_WIFE')">
+  </div>
+  <div *ngFor="let person of PEOPLE"
+       class="person-filter"
+       [class.selected]="activeFilters().has(person)">
+    <img [src]="'/assets/images/' + person + '.png'"
+         alt="person-image"
+         (click)="filterBy(person)">
+  </div>
+</div>
+
 <iframe class="button-download" src="https://wedding-photos-dima-and-sveta.web.app/index.html"></iframe>

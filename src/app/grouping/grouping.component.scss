@@ -1,0 +1,23 @@
+.person-filter {
+  width: 70px;
+  aspect-ratio: 1;
+}
+
+
+.selected {
+  outline: 2px solid green;
+}
+
+:host {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  flex-direction: column;
+  padding: 2em;
+}
+
+.example-boundary {
+ border: 1px solid gray;
+  height: 600px;
+  width: 400px;
+}

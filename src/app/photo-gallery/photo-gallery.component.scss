@@ -3,6 +3,14 @@
   display: block;
 }
 
+.photo[index]:before {
+  content: attr(index);
+  position: absolute;
+  font-size: 24px;
+  color: white;
+  z-index: 1000;
+}
+
 .gallery-line {
   display: flex;
   gap: 4px;

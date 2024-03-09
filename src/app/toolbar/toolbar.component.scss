@@ -1,9 +1,39 @@
 :host {
   display: flex;
-  justify-content: flex-end;
   padding: 1em;
+  gap: 1em;
 }
+
 .button-download {
   height: 36px;
   width: 150px;
+}
+.person-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 70px);
+  gap: 1em;
+  flex-grow: 1;
+}
+.person-filter {
+  aspect-ratio: 1;
+  cursor: pointer;
+  position: relative;
+
+  &.main {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+
+  &.selected:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    $width: 5px;
+    width: calc(100% + $width * 2);
+    height: calc(100% + $width * 2);
+    left: -$width;
+    top: -$width;
+    background: #FFB300;
+    z-index: -1;
+  }
 }

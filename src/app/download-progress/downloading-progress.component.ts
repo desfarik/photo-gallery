@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DownloadingProgressService } from "./downloading-progress.service";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
@@ -17,7 +17,8 @@ import { MatSnackBarRef } from "@angular/material/snack-bar";
     MatButtonModule,
     NgIf
   ],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DownloadingProgressComponent {
   downloadingProgressService = inject(DownloadingProgressService)

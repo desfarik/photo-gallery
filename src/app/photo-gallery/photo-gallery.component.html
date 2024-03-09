@@ -1,14 +1,15 @@
-<cdk-virtual-scroll-viewport [itemSize]="imageHeight"
-                             [attr.images-per-line-size]="imagePerLineSize"
+<cdk-virtual-scroll-viewport [itemSize]="imageHeight()"
+                             [attr.images-per-line-size]="imagePerLineSize()"
                              class="photo-gallery-viewport"
                              [minBufferPx]="1000"
                              [maxBufferPx]="2000">
-  <div *cdkVirtualFor="let row of imageRows; trackBy: trackById;"
+  <div *cdkVirtualFor="let row of imageRows(); trackBy: trackById;"
        class="gallery-line"
-       [style.height.px]="imageHeight">
+       [style.height.px]="imageHeight()">
     <app-photo *ngFor="let image of row.images;let i = index;trackBy: trackById;"
                [photo]="$any(image)"
-               (click)="openGallery($any(image))"
+               photoSwiper
+               [attr.index]="image.index"
                alt="wedding-photo"
                class="photo"></app-photo>
   </div>
