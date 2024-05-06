@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { NgForOf } from "@angular/common";
+import { NgForOf, NgIf } from "@angular/common";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { Photo, PhotoComponent } from "./photo/photo.component";
 import { PhotoGeneratorService } from "../service/photo-generator.service";
@@ -24,6 +24,7 @@ interface PhotoLine {
     ScrollingModule,
     PhotoComponent,
     PhotoSwiperDirective,
+    NgIf,
   ]
 })
 export class PhotoGalleryComponent {

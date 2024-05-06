@@ -5,7 +5,7 @@ export interface Photo {
   id?: string;
   index?: number;
   url: string;
-  blurUrl: string;
+  blurUrl?: string;
 }
 
 @Component({

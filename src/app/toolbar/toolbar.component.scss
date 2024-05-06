@@ -19,6 +19,12 @@
   cursor: pointer;
   position: relative;
 
+  app-photo {
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
   &.main {
     grid-row: span 2;
     grid-column: span 2;
@@ -33,7 +39,8 @@
     height: calc(100% + $width * 2);
     left: -$width;
     top: -$width;
-    background: #FFB300;
+    //background: #FFB300;
+    background: #ffd54f;
     z-index: -1;
   }
 }

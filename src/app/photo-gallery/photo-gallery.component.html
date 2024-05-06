@@ -9,8 +9,14 @@
     <app-photo *ngFor="let image of row.images;let i = index;trackBy: trackById;"
                [photo]="$any(image)"
                photoSwiper
-               [attr.index]="image.index"
                alt="wedding-photo"
                class="photo"></app-photo>
   </div>
 </cdk-virtual-scroll-viewport>
+
+
+<div *ngIf="imageRows().length === 0"
+     class="flex flex-col items-center m-2 mb-6">
+  <img class="empty-results__image" src="/assets/images/empty-results.png" alt="empty result"/>
+  <h2>К сожалению, по вашим выбранным фильтрам нет фотографий. Попробуйте изменить параметры фильтров</h2>
+</div>

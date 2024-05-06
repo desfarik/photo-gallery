@@ -4,6 +4,8 @@ import { DownloadingProgressService } from "../download-progress/downloading-pro
 import { PhotoGeneratorService } from "../service/photo-generator.service";
 import groupping from '../../../scripts/groupping.json';
 import { NgForOf } from "@angular/common";
+import { PhotoComponent } from "../photo-gallery/photo/photo.component";
+import { PhotoSwiperDirective } from "../photo-gallery/photo-swiper.directive";
 
 @Component({
   selector: 'app-toolbar',
@@ -13,6 +15,8 @@ import { NgForOf } from "@angular/common";
   imports: [
     MatButtonModule,
     NgForOf,
+    PhotoComponent,
+    PhotoSwiperDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

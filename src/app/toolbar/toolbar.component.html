@@ -1,22 +1,22 @@
 <div class="person-grid gap-2 flex-wrap">
   <div class="person-filter main"
        [class.selected]="activeFilters().has('HAPPY_HUSBAND')">
-    <img [src]="'/assets/images/HAPPY_HUSBAND.png'"
-         alt="person-image"
-         (click)="filterBy('HAPPY_HUSBAND')">
+    <app-photo [photo]="{url: '/assets/images/HAPPY_HUSBAND.png'}"
+               (click)="filterBy('HAPPY_HUSBAND')">
+    </app-photo>
   </div>
   <div class="person-filter main"
        [class.selected]="activeFilters().has('BEST_WIFE')">
-    <img [src]="'/assets/images/BEST_WIFE.png'"
-         alt="person-image"
-         (click)="filterBy('BEST_WIFE')">
+    <app-photo [photo]="{url: '/assets/images/BEST_WIFE.png'}"
+               (click)="filterBy('BEST_WIFE')">
+    </app-photo>
   </div>
   <div *ngFor="let person of PEOPLE"
        class="person-filter"
        [class.selected]="activeFilters().has(person)">
-    <img [src]="'/assets/images/' + person + '.png'"
-         alt="person-image"
-         (click)="filterBy(person)">
+    <app-photo [photo]="{url: '/assets/images/' + person + '.png'}"
+               (click)="filterBy(person)">
+    </app-photo>
   </div>
 </div>
 

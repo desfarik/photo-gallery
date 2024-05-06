@@ -3,14 +3,6 @@
   display: block;
 }
 
-.photo[index]:before {
-  content: attr(index);
-  position: absolute;
-  font-size: 24px;
-  color: white;
-  z-index: 1000;
-}
-
 .gallery-line {
   display: flex;
   gap: 4px;
@@ -40,4 +32,9 @@
 
 .photo-gallery-viewport[images-per-line-size="4"] .photo {
   width: 25%;
+}
+
+.empty-results__image {
+  width: 30%;
+  max-width: 400px;
 }
