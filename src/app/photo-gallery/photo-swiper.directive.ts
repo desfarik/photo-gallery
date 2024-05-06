@@ -138,7 +138,7 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
 function downloadFile(fileUrl) {
   var fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
 
-  fetch(fileUrl)
+  fetch("https://cors-anywhere.herokuapp.com/" + fileUrl)
     .then(response => response.blob())
     .then(blob => {
       const url = window.URL.createObjectURL(new Blob([blob]));
@@ -149,4 +149,5 @@ function downloadFile(fileUrl) {
       a.click();
       window.URL.revokeObjectURL(url);
     });
+
 }
