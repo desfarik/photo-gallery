@@ -116,10 +116,10 @@ body {
   color: $dark-secondary-text;
 }
 
-.pswp__button--fullscreen-button {
+.pswp__button--fullscreen-button, .pswp__button--download-button {
   text-align: center;
 
-  .pswp__button--fullscreen-icon {
+  .pswp__button--icon {
     display: inline-block;
     fill: var(--pswp-icon-color);
     color: var(--pswp-icon-color-secondary);

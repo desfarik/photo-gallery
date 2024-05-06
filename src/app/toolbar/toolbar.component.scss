@@ -1,19 +1,21 @@
 :host {
-  display: flex;
-  padding: 1em;
-  gap: 1em;
 }
 
 .button-download {
+  margin-left: auto;
   height: 36px;
   width: 150px;
 }
 .person-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, 70px);
+  grid-auto-rows: 70px;
   gap: 1em;
-  flex-grow: 1;
+  min-width: 328px;
+  max-width: 590px;
+  justify-content: center;
 }
+
 .person-filter {
   aspect-ratio: 1;
   cursor: pointer;
@@ -23,11 +25,6 @@
     height: 100%;
     border-radius: 50%;
     overflow: hidden;
-  }
-
-  &.main {
-    grid-row: span 2;
-    grid-column: span 2;
   }
 
   &.selected:before {
@@ -43,4 +40,16 @@
     background: #ffd54f;
     z-index: -1;
   }
+}
+
+
+.video {
+  aspect-ratio: 16/9;
+  max-width: 550px;
+  width: 50vw;
+  min-width: 330px;
+}
+
+.main-filter {
+  height: 110px;
 }

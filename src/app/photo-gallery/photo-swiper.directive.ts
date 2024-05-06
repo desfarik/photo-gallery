@@ -1,6 +1,6 @@
 import { AfterViewInit, computed, Directive, HostListener, inject, Input, OnDestroy } from '@angular/core';
 import { Photo } from "./photo/photo.component";
-import { FULLSCREEN_EXIT_ICON, FULLSCREEN_IN_ICON } from "./icons";
+import { DOWNLOAD_ICON, FULLSCREEN_EXIT_ICON, FULLSCREEN_IN_ICON } from "./icons";
 import type PhotoSwipeLightbox from "photoswipe";
 import { PhotoGeneratorService } from "../service/photo-generator.service";
 import { SCREEN_SIZES } from "../tokens/screen.sizes";
@@ -21,6 +21,7 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
   galleryDataSource = computed(() => {
     return this.photoGeneratorService.items().map(item => {
       return {
+        index: item.index,
         src: item.url,
         width: this.screenSizes.width(),
         height: this.screenSizes.height(),
@@ -75,13 +76,14 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
   @HostListener('click')
   async openGallery() {
     const PhotoSwipeLightbox = await this.loadPhotoSwipe();
-    this.cachedDataSource = this.galleryDataSource().slice(1);
+    this.cachedDataSource = this.galleryDataSource().slice();
     if (this.lightbox) {
       this.lightbox.destroy();
     }
+    const imageIndex = this.cachedDataSource.findIndex(image => image.src === this.photo.url);
     this.lightbox = new PhotoSwipeLightbox({
       dataSource: this.cachedDataSource,
-      index: this.photo.index - 1,
+      index: imageIndex,
       initialZoomLevel: 'fit',
       secondaryZoomLevel: 2,
       maxZoomLevel: 1,
@@ -110,8 +112,19 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
           if (this.inFullScreen) {
             document.exitFullscreen();
           } else {
-            document.body.requestFullscreen({ navigationUI: "hide" });
+            document.body.requestFullscreen({navigationUI: "hide"});
           }
+        }
+      });
+
+      this.lightbox.ui.registerElement({
+        name: 'download-button',
+        ariaLabel: 'Download image',
+        order: 8,
+        isButton: true,
+        html: DOWNLOAD_ICON,
+        onClick: () => {
+          downloadFile(this.lightbox.currSlide.data.src)
         }
       });
     });
@@ -120,4 +133,20 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
   private async loadPhotoSwipe() {
     return (await import('photoswipe')).default;
   }
+}
+
+function downloadFile(fileUrl) {
+  var fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+
+  fetch(fileUrl)
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
 }

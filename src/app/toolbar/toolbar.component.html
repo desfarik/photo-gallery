@@ -1,23 +1,34 @@
-<div class="person-grid gap-2 flex-wrap">
-  <div class="person-filter main"
-       [class.selected]="activeFilters().has('HAPPY_HUSBAND')">
-    <app-photo [photo]="{url: '/assets/images/HAPPY_HUSBAND.png'}"
-               (click)="filterBy('HAPPY_HUSBAND')">
-    </app-photo>
+<div class="flex gap-8 px-3 flex-wrap-reverse items-center justify-center">
+  <div class="flex flex-wrap items-start gap-2">
+    <div class="person-filter main-filter"
+         [class.selected]="activeFilters().has('HAPPY_HUSBAND')">
+      <app-photo [photo]="{url: '/assets/images/HAPPY_HUSBAND.png'}"
+                 (click)="filterBy('HAPPY_HUSBAND')">
+      </app-photo>
+    </div>
+    <div class="person-filter main-filter"
+         [class.selected]="activeFilters().has('BEST_WIFE')">
+      <app-photo [photo]="{url: '/assets/images/BEST_WIFE.png'}"
+                 (click)="filterBy('BEST_WIFE')">
+      </app-photo>
+    </div>
   </div>
-  <div class="person-filter main"
-       [class.selected]="activeFilters().has('BEST_WIFE')">
-    <app-photo [photo]="{url: '/assets/images/BEST_WIFE.png'}"
-               (click)="filterBy('BEST_WIFE')">
-    </app-photo>
+  <div class="person-grid gap-2 flex-wrap">
+    <div *ngFor="let person of PEOPLE"
+         class="person-filter"
+         [class.selected]="activeFilters().has(person)">
+      <app-photo [photo]="{url: '/assets/images/' + person + '.png'}"
+                 (click)="filterBy(person)">
+      </app-photo>
+    </div>
   </div>
-  <div *ngFor="let person of PEOPLE"
-       class="person-filter"
-       [class.selected]="activeFilters().has(person)">
-    <app-photo [photo]="{url: '/assets/images/' + person + '.png'}"
-               (click)="filterBy(person)">
-    </app-photo>
+  <div>
+    <iframe class="video"
+            src="https://www.youtube.com/embed/PhSwXy_Yf5I?list=PLmMA-P_EMQa3wNd_EqB3F6-uAXUeEzKYB"
+            title="Дмитрий и Светлана 17 06 23 Фильм" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<!--    <iframe class="button-download mt-4" src="https://wedding-photos-dima-and-sveta.web.app/index.html"></iframe>-->
   </div>
 </div>
-
-<iframe class="button-download" src="https://wedding-photos-dima-and-sveta.web.app/index.html"></iframe>
