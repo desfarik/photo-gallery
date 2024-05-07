@@ -124,7 +124,7 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
         isButton: true,
         html: DOWNLOAD_ICON,
         onClick: () => {
-          downloadFile(this.lightbox.currSlide.data.src)
+          downloadFile2(this.lightbox.currSlide.data.src)
         }
       });
     });
@@ -136,18 +136,28 @@ export class PhotoSwiperDirective implements AfterViewInit, OnDestroy {
 }
 
 function downloadFile(fileUrl) {
-  var fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-
-  fetch("https://cors-anywhere.herokuapp.com/" + fileUrl)
+  const [, image] = /medium\/([\w\W]*?)\.webp/.exec(fileUrl);
+  const originalFile = `https://wedding-photos-dima-and-sveta.web.app/photos-original/${image}.jpg`;
+  fetch("https://cors-anywhere.herokuapp.com/" + originalFile)
     .then(response => response.blob())
     .then(blob => {
       const url = window.URL.createObjectURL(new Blob([blob]));
       const a = document.createElement("a");
       a.href = url;
-      a.download = fileName;
+      a.download = image + ".jpg";
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
     });
+}
 
+function downloadFile2(fileUrl) {
+  const [, image] = /medium\/([\w\W]*?)\.webp/.exec(fileUrl);
+  const originalFile = `https://wedding-photos-dima-and-sveta.web.app/photos-original/${image}.jpg`;
+  const a = document.createElement("a");
+  a.href = originalFile;
+  a.target = '_blank';
+  a.download = image + ".jpg";
+  document.body.appendChild(a);
+  a.click();
 }
